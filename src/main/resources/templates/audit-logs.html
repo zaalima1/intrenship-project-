@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Audit Logs</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .module {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Audit Logs (Compliance & Monitoring)</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Module</th>
+            <th>Action</th>
+            <th>Method</th>
+            <th>Parameters</th>
+            <th>User</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="log : ${logs}">
+            <td th:text="${log.id}"></td>
+            <td class="module" th:text="${log.module}"></td>
+            <td th:text="${log.action}"></td>
+            <td th:text="${log.methodName}"></td>
+            <td th:text="${log.parameters}"></td>
+            <td th:text="${log.performedBy}"></td>
+            <td th:text="${#temporals.format(log.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
