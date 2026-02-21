@@ -10,5 +10,6 @@ import com.example.siya.entity.Account;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByAccountNumber(String accountNumber);
 
-	boolean existsById(String accountNumber);
+    boolean existsByAccountNumber(String accountNumber);
+
 }

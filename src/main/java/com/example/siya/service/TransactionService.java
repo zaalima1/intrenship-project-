@@ -3,14 +3,14 @@ package com.example.siya.service;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import com.example.siya.entity.Account;
 import com.example.siya.entity.Auditable;
 import com.example.siya.entity.Transaction;
 import com.example.siya.repo.AccountRepository;
 import com.example.siya.repo.TransactionRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class TransactionService {

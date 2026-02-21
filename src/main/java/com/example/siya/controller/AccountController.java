@@ -7,11 +7,8 @@ import com.example.siya.entity.Account;
 import com.example.siya.entity.Auditable;
 import com.example.siya.repo.AccountRepository;
 
-
-
 @RestController
 @RequestMapping("/account")
-
 public class AccountController {
 
     private final AccountRepository accountRepo;
@@ -21,10 +18,10 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    @Auditable(module="ACCOUNT", action="ACCOUNT_CREATED")
+    @Auditable(module = "ACCOUNT", action = "ACCOUNT_CREATED")
     public ResponseEntity<String> createAccount(@RequestBody Account account) {
 
-        if (accountRepo.existsById(account.getAccountNumber())) {
+        if (accountRepo.existsByAccountNumber(account.getAccountNumber())) {
             return ResponseEntity.badRequest()
                     .body("Account already exists");
         }
