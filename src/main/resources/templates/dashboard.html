@@ -1,123 +1,284 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>User Dashboard</title>
+<meta charset="UTF-8">
+<title>VaultCore Financial | Dashboard</title>
 
-    <style>
-        body {
-            background: 
-    
-    url("/images/welcome.png") no-repeat center center / cover;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-        }
-        
-        span.value {
-  color: black !important;
-}
-        
-        
-
-.label {
-  color: black !important;
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, sans-serif;
 }
 
-
-        .dashboard {
-         background: linear-gradient(135deg, #0b3d2e, #0a2540);
-         
-            width: 420px;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-        }
-
-        .dashboard h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        .profile-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 15px;
-        }
-
-        .profile-row:last-child {
-            border-bottom: none;
-        }
-
-        .label {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .value {
-            color: #222;
-        }
-
-        .logout-btn {
-            margin-top: 25px;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #667eea;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            background: #5a67d8;
-        }
-        
-h2, h2 span {
-  color: black !important;
+body{
+    background-image:url("images/dashhhh.png");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
 }
 
+.layout{
+    display:flex;
+    min-height:100vh;
+}
 
-    </style>
+.sidebar{
+    width:240px;
+    background:#0f172a;
+    color:#fff;
+    padding:24px 18px;
+    position:fixed;
+    top:0;
+    bottom:0;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:32px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin-bottom:14px;
+}
+
+.menu a{
+    display:block;
+    padding:12px 14px;
+    border-radius:10px;
+    color:#cbd5f5;
+    text-decoration:none;
+}
+
+.menu a:hover{
+    background:#1e293b;
+    color:#fff;
+}
+
+.logout{
+    color:#f87171 !important;
+}
+
+.main-content{
+    margin-left:240px;
+    width:calc(100% - 240px);
+    padding:30px;
+}
+
+.container{
+    text-align:center;
+    margin-top:40px;
+}
+
+.nav-buttons button{
+    padding:12px 25px;
+    margin:0 10px;
+    border-radius:25px;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    background:#ffffffaa;
+    color:#1e3c72;
+    transition:0.3s;
+}
+
+.nav-buttons button:hover{
+    background:#fff;
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card{
+    width:70%;
+    margin:30px auto;
+    padding:25px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    transition:all 0.6s ease;
+    opacity:0;
+    transform:translateY(30px);
+    display:none;
+}
+
+.card.active{
+    opacity:1;
+    transform:translateY(0);
+    display:block;
+}
+
+#balanceBox{
+    margin-top:25px;
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    transition:all 0.6s ease;
+}
+
+.balance-card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    display:inline-block;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    min-width:320px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="dashboard">
-   <h2>
-  👤 Welcome, <span th:text="${user.name}">User</span> 👋
-</h2>
-   
+<div class="layout">
 
-    <div class="profile-row">
-        <span class="label">Account Number</span>
-        <span class="value" th:text="${user.accountNumber}"></span>
-    </div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<h2>VaultCore</h2>
+<ul class="menu">
+<li><a th:href="@{/dashboard-page}">Dashboard</a></li>
+<li><a th:href="@{/admin/create}">Create Account</a></li>
+<li><a th:href="@{/transfer/send1}">Send Money</a></li>
+<li><a th:href="@{/trading}">Trading</a></li>
+<li><a th:href="@{/kyc/apply}">KYC</a>
+<li><a th:href="@{/user/loan}">Loan</a>
+<li><a th:href="@{/transfer/total-transactions}">View My Total Transactions</a></li>
 
-    <div class="profile-row">
-        <span class="label">Mobile</span>
-        <span class="value" th:text="${user.mobileNumber}"></span>
-    </div>
+<li><a href="#" onclick="logout()" class="logout">Logout</a></li>
+</ul>
+</aside>
 
-    <div class="profile-row">
-        <span class="label">Date of Birth</span>
-        <span class="value" th:text="${user.dateOfBirth}"></span>
-    </div>
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-    <div class="profile-row">
-        <span class="label">Gender</span>
-        <span class="value" th:text="${user.gender}"></span>
-    </div>
+<marquee style="color:white;">
+🔔 Welcome,
+<span th:text="${username} ?: 'User'"></span>
+| Secure Banking | Fast Transactions | 24×7 Protection
+</marquee>
 
-    
+<div class="container">
+
+<div class="nav-buttons">
+<button onclick="showSection('dashboardSection')">Dashboard</button>
+<button onclick="showSection('aboutSection')">About</button>
+<button onclick="showSection('contactSection')">Contact</button>
+<button onclick="showBalanceInput()">Check Balance</button>
 </div>
+
+<!-- DASHBOARD -->
+<div id="dashboardSection" class="card active">
+   
+   
+   <h3>📊 Dashboard Overview</h3>
+        <p>Welcome to <strong>VaultCore Financial</strong> — a next-gen fintech platform designed for secure, fast, and intelligent banking.</p>
+        <ul>
+            <li>✔ Real-time money transfers</li>
+            <li>✔ AI-powered fraud detection</li>
+            <li>✔ Instant transaction history</li>
+            <li>✔ Secure OTP & JWT authentication</li>
+            <li>✔ Monthly statement PDF generation</li>
+        </ul>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="aboutSection" class="card hidden">
+        <h3>🏦 About VaultCore Financial</h3>
+        <p>VaultCore Financial bridges traditional banking with cutting-edge technology.</p>
+        <p>Seamless digital transactions, high-level encryption, and secure user authentication ensure safe operations.</p>
+        <p>Built on Spring Boot for scalability, transparency, and enterprise-level security.</p>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contactSection" class="card hidden">
+        <h3>📞 Contact Us</h3>
+        <p><strong>Email:</strong> support@vaultcorefinancial.com</p>
+        <p><strong>Phone:</strong> +91 98765 43210</p>
+        <p><strong>Address:</strong> 3rd Floor, Tech Park, Mumbai, India</p>
+        <p><strong>Hours:</strong> Mon-Sat | 9:00 AM – 6:00 PM</p>
+        <p>Our support team is available to assist with transactions, account queries, and technical support.</p>
+    </div>
+       
+
+
+<!-- BALANCE SECTION -->
+<div id="balanceBox">
+<div class="balance-card">
+
+<h3 style="color:#1e3c72;margin-bottom:15px;">Check Account Balance</h3>
+
+<input type="text" id="accountNumberInput"
+placeholder="Enter Account Number"
+style="padding:10px;border-radius:8px;width:230px;border:1px solid #ccc;">
+
+<br><br>
+
+<button onclick="checkBalance()"
+style="padding:10px 25px;border-radius:8px;background:#1e3c72;color:white;font-weight:bold;border:none;cursor:pointer;">
+Submit
+</button>
+
+<p id="balanceDisplay"
+style="margin-top:20px;font-size:20px;font-weight:bold;color:#1e3c72;"></p>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+function showSection(sectionId){
+document.querySelectorAll('.card').forEach(sec=>{
+sec.classList.remove('active');
+});
+document.getElementById(sectionId).classList.add('active');
+}
+
+function showBalanceInput(){
+let box=document.getElementById("balanceBox");
+box.style.opacity="1";
+box.style.maxHeight="300px";
+}
+
+function checkBalance(){
+let accountNumber=document.getElementById("accountNumberInput").value.trim();
+
+if(!accountNumber){
+alert("Please enter account number");
+return;
+}
+
+document.getElementById("balanceDisplay").innerHTML="Checking balance...";
+
+fetch("/account/balance/"+accountNumber)
+.then(response=>{
+if(!response.ok){
+return response.text().then(text=>{throw new Error(text);});
+}
+return response.text();
+})
+.then(balance=>{
+document.getElementById("balanceDisplay").innerHTML=
+"💰 Current Balance: ₹ "+balance;
+})
+.catch(error=>{
+document.getElementById("balanceDisplay").innerHTML=
+"❌ "+error.message;
+});
+}
+
+function logout(){
+fetch("/logout",{method:"POST"})
+.then(()=>window.location.href="/login-page");
+}
+
+</script>
 
 </body>
 </html>
