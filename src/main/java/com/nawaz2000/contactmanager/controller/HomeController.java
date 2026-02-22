@@ -77,7 +77,7 @@ public class HomeController {
 		
 		System.out.println("\n\n\n\n\n\n===========Pagination sql:");
 		System.out.println("Page: " + page + " UId: " + currUserId);
-		Page<ContactDetails> contacts = contactStorageService.findByUserid(currUserId, pagable);
+		Page<ContactDetails> contacts = contactStorageService.findByUserId(currUserId, pagable);
 		
 		
 		contactList = new ArrayList<>(); 
@@ -90,7 +90,7 @@ public class HomeController {
 		System.out.println("\n\n\n\n\n\n===========Pringting found contacts:");
 		System.out.println("Page: " + page);
 		
-		List<ContactDetails> contacts2 = contactStorageService.findByUseridOrderByNameAsc(currUserId);
+		List<ContactDetails> contacts2 = contactStorageService.findByUserIdOrderByNameAsc(currUserId);
 		model.addAttribute("allContacts", contactList);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", contacts.getTotalPages());
@@ -132,7 +132,7 @@ public class HomeController {
 		System.out.println("\n\n\n\n\n\n===========Pagination sql:");
 		System.out.println("Page: " + page + " UId: " + currUserId);
 		
-		List<ContactDetails> contacts2 = contactStorageService.findByUseridOrderByNameAsc(currUserId);
+		List<ContactDetails> contacts2 = contactStorageService.findByUserIdOrderByNameAsc(currUserId);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", searchResult.getTotalPages());
 		model.addAttribute("totalContacts", contacts2.size());

@@ -12,16 +12,26 @@ import com.nawaz2000.contactmanager.entity.ContactDetails;
 
 @Repository
 public interface ContactRepository extends JpaRepository<ContactDetails, Integer> {
-	
-	public List<ContactDetails> findByUseridOrderByNameAsc(int userid);
-	
-	@Query(value = "select * from contactdetails where lower(name) LIKE %?1%  and userid = ?2 order by name"
-			,nativeQuery = true)
-	public Page<ContactDetails> search(String search, int userId, Pageable pageable);
-	
-	public List<ContactDetails> findByFavouriteOrderByNameAsc(String favourite);
-	
-	@Query(value="select * from contactdetails where userid = ?1 order by name", nativeQuery = true)
-	public Page<ContactDetails> findByUserid(int userId, Pageable pageable);
-	
+
+    // ✅ Correct method – matches field name in ContactDetails
+    List<ContactDetails> findByUseridOrderByNameAsc(int userid);
+
+    // ✅ Search query (case-insensitive)
+    @Query(
+        value = "SELECT * FROM contactdetails WHERE LOWER(name) LIKE LOWER(CONCAT('%', ?1, '%')) AND userid = ?2 ORDER BY name",
+        countQuery = "SELECT COUNT(*) FROM contactdetails WHERE LOWER(name) LIKE LOWER(CONCAT('%', ?1, '%')) AND userid = ?2",
+        nativeQuery = true
+    )
+    Page<ContactDetails> search(String search, int userid, Pageable pageable);
+
+    // ✅ Assuming 'favourite' is a column in the entity
+    List<ContactDetails> findByFavouriteOrderByNameAsc(String favourite);
+
+    // ✅ Pagination query by user id
+    @Query(
+        value = "SELECT * FROM contactdetails WHERE userid = ?1 ORDER BY name",
+        countQuery = "SELECT COUNT(*) FROM contactdetails WHERE userid = ?1",
+        nativeQuery = true
+    )
+    Page<ContactDetails> findByUserid(int userid, Pageable pageable);
 }
