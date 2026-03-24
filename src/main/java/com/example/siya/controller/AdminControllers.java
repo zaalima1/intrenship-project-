@@ -39,6 +39,6 @@ public class AdminControllers {
             return "redirect:/admin/create";
         }
         model.addAttribute("user", user);
-        return "dashboard";
+        return "dash";
     }
 }
